@@ -36,6 +36,18 @@ public class AcqService {
     }
 
 
+    public  RevertResponse revertOrder(RevertRequest req) {
+        String reqStr = gson.toJson(req);
+        final String respStr = post("https://pay.avangard.ru/iacq/h2h/reverse_order", reqStr);
+        final RevertResponse response = gson.fromJson(respStr, RevertResponse.class);
+        if (!response.isOk())
+            throw new RuntimeException(response.getResponseCode() + " " + response.getResponseMessage());
+        return response;
+    }
+
+
+
+
     public static String post(String urlString, String body) {
         try {
             URL url = new URL(urlString);
